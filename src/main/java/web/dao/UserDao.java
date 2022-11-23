@@ -8,5 +8,6 @@ public interface UserDao {
     void add(User user);
     List<User> listUsers();
     void delete(Long id);
-    void update(Long id, String name, String lastName, int age);
+    void update(User user, Long id);
+    User show(Long id);
 }

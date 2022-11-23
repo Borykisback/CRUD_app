@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -39,13 +38,19 @@ public class UserDaoImp implements UserDao {
 
     @Override
     @Transactional
-    public void update(Long id, String name, String lastName, int age) {
-        entityManager.createQuery("UPDATE User SET firstName = ?1, lastName = ?2, age = ?3 WHERE id = ?4")
-                .setParameter(1, name)
-                .setParameter(2, lastName)
-                .setParameter(3, age)
-                .setParameter(4, id)
-                .executeUpdate();
+    public void update(User user, Long id) {
+        user.setId(id);
+        entityManager.merge(user);
+    }
+
+    @Override
+    @Transactional
+    public User show(Long id) {
+        return listUsers()
+                .stream()
+                .filter(i -> i.getId().equals(id))
+                .findAny()
+                .orElse(null);
     }
 
 }

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -26,10 +24,6 @@ public class UserServiceImp implements UserService{
     @Override
     public List<User> listUsers() {
       return userDao.listUsers();
-//        List<User> userList = userDao.listUsers();
-//        userList.forEach(i -> System.out.printf(" ID: %s%n Name: %s%n LastName: %s%n",
-//                i.getId(), i.getFirstName(), i.getLastName()));
-//        return userList;
     }
 
     @Override
@@ -40,8 +34,14 @@ public class UserServiceImp implements UserService{
 
     @Override
     @Transactional
-    public void update(Long id, String name, String lastName, int age) {
-        userDao.update(id, name, lastName, age);
+    public void update(User user, Long id) {
+        userDao.update(user, id);
+    }
+
+    @Override
+    @Transactional
+    public User show(Long id) {
+        return userDao.show(id);
     }
 
 }
